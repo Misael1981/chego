@@ -2,20 +2,75 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    /* Azul Chegô */
+    --primary: 214 67% 9%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 214 67% 9%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 94%;
+    --accent-foreground: 214 67% 9%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 214 67% 9%;
+
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 214 67% 9%; /* #081727 */
+    --foreground: 0 0% 98%;
+
+    --card: 214 60% 12%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 214 60% 12%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 210 100% 85%;
+    --primary-foreground: 214 67% 9%;
+
+    --secondary: 214 50% 16%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 214 50% 16%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 214 50% 20%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 214 50% 18%;
+    --input: 214 50% 18%;
+    --ring: 210 100% 85%;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
