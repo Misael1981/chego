@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =====================
+// ENUMS
+// =====================
+
+// npx prisma migrate dev --name init_chego
+
+enum DeliveryStatus {
+  OPEN        // disponível para qualquer entregador
+  CLAIMED     // aceito por um entregador
+  DELIVERED   // entregue
+  CANCELED    // cancelado pelo sistema ou loja
+}
+
+enum CourierStatus {
+  ACTIVE
+  INACTIVE
+  BLOCKED
+}
+
+enum DeliverySource {
+  RANGOOO
+  EXTERNAL
+}
+
+// =====================
+// MODELS
+// =====================
+
+model Courier {
+  id        String        @id @default(uuid())
+  name      String
+  phone     String        @unique
+  password  String
+  status    CourierStatus @default(ACTIVE)
+
+  deliveries DeliveryOrder[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DeliveryOrder {
+  id              String         @id @default(uuid())
+
+  status          DeliveryStatus @default(OPEN)
+
+  pickupAddress   String
+  deliveryAddress String
+
+  fee             Float?         // valor da corrida (opcional no MVP)
+
+  courierId       String?
+  courier         Courier?        @relation(fields: [courierId], references: [id])
+
+  externalOrderId String?
+  source          DeliverySource  @default(EXTERNAL)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([status])
+  @@index([courierId])
+}
