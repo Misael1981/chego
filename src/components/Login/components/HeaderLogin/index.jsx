@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const HeaderLogin = () => {
   return (
-    <header className="flex gap-2 items-center w-full">
+    <header className="flex gap-4 items-center w-full">
       <div className="bg-white p-1 rounded-lg">
         <Image src="/logo-chego.svg" width={64} height={64} alt="logo" />
       </div>

@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import { Kanit } from "next/font/google";
 import "./globals.css";
+import AuthProvider from "./providers/auth";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -38,7 +39,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${inter.variable} ${kanit.variable} font-sans antialiased`}
       >
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
