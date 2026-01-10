@@ -1,9 +1,18 @@
 import { Inter } from "next/font/google";
+import { Kanit } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+const kanit = Kanit({
+  subsets: ["latin"],
+  variable: "--font-kanit",
   weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
   display: "swap",
@@ -25,8 +34,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.variable} font-sans antialiased`}>
+    <html lang="pt-BR" className="dark">
+      <body
+        className={`${inter.variable} ${kanit.variable} font-sans antialiased`}
+      >
         {children}
       </body>
     </html>

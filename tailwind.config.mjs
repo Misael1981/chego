@@ -11,6 +11,7 @@ const tailwindConfig = {
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)"],
+        kanit: ["var(--font-kanit)"],
       },
       colors: {
         background: "hsl(var(--background))",
