@@ -1,6 +1,7 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
 import { db } from "./prisma";
+import { createCourierIfNotExists } from "@/services/courier/create-courier";
 
 /** @type {import("next-auth").NextAuthOptions} */
 export const authOptions = {
@@ -26,6 +27,16 @@ export const authOptions = {
         session.user.id = token.userId;
       }
       return session;
+    },
+    async signIn({ user }) {
+      if (!user?.id) return false;
+
+      await createCourierIfNotExists(user.id, {
+        name: user.name ?? "",
+        phone: "",
+      });
+
+      return true;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,

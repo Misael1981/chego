@@ -31,6 +31,12 @@ enum DeliverySource {
   EXTERNAL
 }
 
+enum UserRole {
+  COURIER
+  MERCHANT
+  ADMIN
+}
+
 // =====================
 // MODELS
 // =====================
@@ -72,9 +78,12 @@ model User {
   emailVerified DateTime? @map("email_verified")
   image         String?
 
-  courier  Courier?
-  accounts Account[]
-  sessions Session[]
+  role          UserRole?
+  courier       Courier?
+  merchant      Merchant?
+  accounts      Account[]
+  sessions      Session[]
+  roleDefinedAt DateTime?
 
   @@map("users")
 }
@@ -89,14 +98,31 @@ model VerificationToken {
 }
 
 model Courier {
-  id     String @id @default(uuid())
+  id     String @id @default(cuid())
   userId String @unique
   user   User   @relation(fields: [userId], references: [id])
 
-  phone  String        @unique
+  phone  String
   status CourierStatus @default(ACTIVE)
 
   deliveries DeliveryOrder[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Merchant {
+  id String @id @default(cuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  name         String
+  phone        String
+  businessName String
+  address      String
+  city         String
+  state        String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
