@@ -37,6 +37,28 @@ enum UserRole {
   ADMIN
 }
 
+enum VehicleType {
+  MOTO
+  BIKE
+  CARRO
+}
+
+enum WeekDay {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
+
+enum DayPeriod {
+  MORNING
+  AFTERNOON
+  NIGHT
+}
+
 // =====================
 // MODELS
 // =====================
@@ -100,22 +122,57 @@ model VerificationToken {
 model Courier {
   id     String @id @default(cuid())
   userId String @unique
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   phone  String
   status CourierStatus @default(ACTIVE)
+  hasFixedJob Boolean @default(false)
 
-  deliveries DeliveryOrder[]
+  availability CourierAvailability[]
+  profile   CourierProfile?
+  vehicle   CourierVehicle?
+  deliveries DeliveryOrder[] @relation("CourierDeliveries")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model CourierAvailability {
+  id        String @id @default(cuid())
+  courierId String
+  courier   Courier @relation(fields: [courierId], references: [id], onDelete: Cascade)
+
+  day       WeekDay
+  period    DayPeriod
+}
+
+
+model CourierProfile {
+  id        String @id @default(cuid())
+  courierId String @unique
+  courier   Courier @relation(fields: [courierId], references: [id], onDelete: Cascade)
+
+  expectations String?
+}
+
+model CourierVehicle {
+  id        String @id @default(cuid())
+  courierId String @unique
+  courier   Courier @relation(fields: [courierId], references: [id], onDelete: Cascade)
+
+  type      VehicleType
+  plate     String?
+  model     String?
+  engineCc  Int?
+
+  createdAt DateTime @default(now())
 }
 
 model Merchant {
   id String @id @default(cuid())
 
   userId String @unique
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   name         String
   phone        String
@@ -129,7 +186,7 @@ model Merchant {
 }
 
 model DeliveryOrder {
-  id String @id @default(uuid())
+  id String @id @default(cuid())
 
   status DeliveryStatus @default(OPEN)
 
@@ -139,7 +196,7 @@ model DeliveryOrder {
   fee Float? // valor da corrida (opcional no MVP)
 
   courierId String?
-  courier   Courier? @relation(fields: [courierId], references: [id])
+  courier   Courier? @relation("CourierDeliveries", fields: [courierId], references: [id], onDelete: SetNull)
 
   externalOrderId String?
   source          DeliverySource @default(EXTERNAL)
