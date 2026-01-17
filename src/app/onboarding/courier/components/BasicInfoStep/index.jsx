@@ -1,26 +1,100 @@
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+
+const formSchema = z.object({
+  username: z.string().min(2, {
+    message: "O nome de usuário deve ter pelo menos 2 caracteres.",
+  }),
+  phone: z.string().min(10, {
+    message: "O número de telefone deve ter pelo menos 10 dígitos.",
+  }),
+  fixedJob: z.boolean().optional(),
+});
+
 const BasicInfoStep = ({ onNext }) => {
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: "",
+      phone: "",
+      fixedJob: false,
+    },
+  });
+
   return (
     <div className="space-y-4">
-      <div>
-        <label className="block text-sm mb-1">Telefone</label>
-        <input
-          type="tel"
-          className="w-full rounded-md bg-gray-800 border border-gray-700 px-3 py-2"
-          placeholder="(11) 99999-9999"
-        />
-      </div>
+      <Form {...form}>
+        <form
+          className="space-y-6"
+          onSubmit={form.handleSubmit((data) => {
+            console.log(data);
+            onNext();
+          })}
+        >
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nome</FormLabel>
+                <FormControl>
+                  <Input placeholder="Digite seu nome" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-      <div className="flex items-center gap-2">
-        <input type="checkbox" id="fixedJob" />
-        <label htmlFor="fixedJob">Possui trabalho fixo</label>
-      </div>
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Telefone</FormLabel>
+                <FormControl>
+                  <Input placeholder="(11) 99999-9999" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-      <button
-        onClick={onNext}
-        className="w-full bg-indigo-600 hover:bg-indigo-500 transition rounded-md py-2 font-medium"
-      >
-        Continuar
-      </button>
+          <FormField
+            control={form.control}
+            name="fixedJob"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center gap-2 space-y-0">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormLabel className="font-normal">
+                  Possui trabalho fixo
+                </FormLabel>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" className="w-full">
+            Continuar
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 };
