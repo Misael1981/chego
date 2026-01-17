@@ -1,4 +1,4 @@
-import StepsRegistration from "./components/StepsRegistration";
+import CourierOnboardingForm from "./CourierOnboardingForm";
 
 export default function CourierOnboardingPage() {
   return (
@@ -10,7 +10,7 @@ export default function CourierOnboardingPage() {
           Precisamos de algumas informações para configurar seu perfil.
         </p>
 
-        <StepsRegistration />
+        <CourierOnboardingForm />
       </div>
     </main>
   );

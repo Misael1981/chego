@@ -1,26 +1,56 @@
+import { useFormContext } from "react-hook-form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+
 const ProfileStep = ({ onBack }) => {
+  const { control } = useFormContext();
+
   return (
     <div className="space-y-4">
-      <div>
-        <label className="block text-sm mb-1">Conte um pouco sobre você</label>
-        <textarea
-          rows={4}
-          className="w-full rounded-md bg-gray-800 border border-gray-700 px-3 py-2"
-          placeholder="Ex: Procuro entregas no período noturno..."
-        />
-      </div>
+      <FormField
+        control={control}
+        name="expectations"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>
+              Conte um pouco sobre o que você espera do aplicativo
+            </FormLabel>
+            <FormControl>
+              <Textarea
+                rows={4}
+                className="bg-gray-800 border-gray-700"
+                placeholder="Ex: Procuro um complemento de renda nas horas vagas..."
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
 
-      <div className="flex gap-3">
-        <button
+      <div className="flex gap-3 pt-4">
+        <Button
+          type="button"
+          variant="outline"
           onClick={onBack}
-          className="flex-1 border border-gray-700 rounded-md py-2"
+          className="flex-1 border-gray-700"
         >
           Voltar
-        </button>
+        </Button>
 
-        <button className="flex-1 bg-green-600 rounded-md py-2 font-medium">
+        <Button
+          type="submit"
+          className="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium"
+        >
           Finalizar Cadastro
-        </button>
+        </Button>
       </div>
     </div>
   );

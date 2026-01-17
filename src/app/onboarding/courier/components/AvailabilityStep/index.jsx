@@ -1,3 +1,14 @@
+import { useFormContext } from "react-hook-form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+
 const days = [
   "Domingo",
   "Segunda",
@@ -7,50 +18,128 @@ const days = [
   "Sexta",
   "Sábado",
 ];
-
 const periods = ["Manhã", "Tarde", "Noite"];
 
 const AvailabilityStep = ({ onBack, onNext }) => {
+  const { control, trigger } = useFormContext();
+
+  const handleNextStep = async () => {
+    const isValid = await trigger(["days", "periods"]);
+    if (isValid) onNext();
+  };
+
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="font-medium mb-2">Dias disponíveis</h2>
-        <div className="grid grid-cols-2 gap-2">
-          {days.map((day) => (
-            <label key={day} className="flex gap-2 items-center">
-              <input type="checkbox" />
-              {day}
-            </label>
-          ))}
-        </div>
-      </div>
+      {/* SEÇÃO DE DIAS */}
+      <FormField
+        control={control}
+        name="days"
+        render={() => (
+          <FormItem>
+            <div className="mb-4">
+              <FormLabel className="text-base">Dias disponíveis</FormLabel>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {days.map((day) => (
+                <FormField
+                  key={day}
+                  control={control}
+                  name="days"
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={day}
+                        className="flex flex-row items-start space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value?.includes(day)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, day])
+                                : field.onChange(
+                                    field.value?.filter(
+                                      (value) => value !== day,
+                                    ),
+                                  );
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="font-normal cursor-pointer">
+                          {day}
+                        </FormLabel>
+                      </FormItem>
+                    );
+                  }}
+                />
+              ))}
+            </div>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
 
-      <div>
-        <h2 className="font-medium mb-2">Períodos</h2>
-        <div className="flex gap-4">
-          {periods.map((period) => (
-            <label key={period} className="flex gap-2 items-center">
-              <input type="checkbox" />
-              {period}
-            </label>
-          ))}
-        </div>
-      </div>
+      {/* SEÇÃO DE PERÍODOS */}
+      <FormField
+        control={control}
+        name="periods"
+        render={() => (
+          <FormItem>
+            <div className="mb-4">
+              <FormLabel className="text-base">Períodos</FormLabel>
+            </div>
+            <div className="flex gap-4">
+              {periods.map((period) => (
+                <FormField
+                  key={period}
+                  control={control}
+                  name="periods"
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={period}
+                        className="flex flex-row items-start space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value?.includes(period)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, period])
+                                : field.onChange(
+                                    field.value?.filter(
+                                      (value) => value !== period,
+                                    ),
+                                  );
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="font-normal cursor-pointer">
+                          {period}
+                        </FormLabel>
+                      </FormItem>
+                    );
+                  }}
+                />
+              ))}
+            </div>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
 
       <div className="flex gap-3">
-        <button
+        <Button
+          type="button"
+          variant="outline"
           onClick={onBack}
-          className="flex-1 border border-gray-700 rounded-md py-2"
+          className="flex-1"
         >
           Voltar
-        </button>
-
-        <button
-          onClick={onNext}
-          className="flex-1 bg-indigo-600 rounded-md py-2"
-        >
+        </Button>
+        <Button onClick={handleNextStep} className="flex-1">
           Continuar
-        </button>
+        </Button>
       </div>
     </div>
   );
