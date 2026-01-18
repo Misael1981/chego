@@ -5,13 +5,18 @@ import { onboardingCourierSchema } from "@/schemas/onboardingCourier-schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { completeCourierOnboarding } from "@/actions/complete-courier-onboarding";
+
 import BasicInfoStep from "./components/BasicInfoStep";
 import AvailabilityStep from "./components/AvailabilityStep";
 import ProfileStep from "./components/ProfileStep";
 import VehicleStep from "./components/VehicleStep";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const CourierOnboardingForm = () => {
   const [step, setStep] = useState(1);
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(onboardingCourierSchema),
@@ -29,8 +34,15 @@ const CourierOnboardingForm = () => {
     },
   });
 
-  const onSubmit = (data) => {
-    console.log("DADOS CONSOLIDADOS DO ONBOARDING:", data);
+  const onSubmit = async (data) => {
+    try {
+      await completeCourierOnboarding(data);
+      router.push("/");
+      toast.success("Cadastro finalizado com sucesso!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Ocorreu um erro ao finalizar o cadastro.");
+    }
   };
 
   return (

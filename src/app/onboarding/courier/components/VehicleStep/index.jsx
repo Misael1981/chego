@@ -86,7 +86,7 @@ const VehicleStep = ({ onBack, onNext }) => {
                 <FormLabel>Cilindradas (apenas números)</FormLabel>
                 <FormControl>
                   <Input
-                    type="number"
+                    type="text"
                     placeholder="160"
                     className="bg-gray-800 border-gray-700"
                     {...field}

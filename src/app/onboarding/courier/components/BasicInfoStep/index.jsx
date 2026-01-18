@@ -9,9 +9,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { validatePhone } from "@/helpers/validate-phone";
 
 const BasicInfoStep = ({ onNext }) => {
-  const { control, trigger } = useFormContext();
+  const { control, trigger, setError, clearErrors } = useFormContext();
 
   const handleNextStep = async () => {
     const isValid = await trigger(["username", "phone", "fixedJob"]);
@@ -45,7 +46,24 @@ const BasicInfoStep = ({ onNext }) => {
             <FormItem>
               <FormLabel>Telefone</FormLabel>
               <FormControl>
-                <Input placeholder="(11) 99999-9999" {...field} />
+                <Input
+                  placeholder="(11) 99999-9999"
+                  {...field}
+                  onBlur={(e) => {
+                    field.onBlur();
+
+                    const value = e.target.value;
+
+                    if (!validatePhone(value)) {
+                      setError("phone", {
+                        type: "manual",
+                        message: "Telefone inválido. Use (11) 99999-9999",
+                      });
+                    } else {
+                      clearErrors("phone");
+                    }
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

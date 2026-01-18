@@ -10,15 +10,20 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 
 const days = [
-  "Domingo",
-  "Segunda",
-  "Terça",
-  "Quarta",
-  "Quinta",
-  "Sexta",
-  "Sábado",
+  { label: "Domingo", value: "SUNDAY" },
+  { label: "Segunda", value: "MONDAY" },
+  { label: "Terça", value: "TUESDAY" },
+  { label: "Quarta", value: "WEDNESDAY" },
+  { label: "Quinta", value: "THURSDAY" },
+  { label: "Sexta", value: "FRIDAY" },
+  { label: "Sábado", value: "SATURDAY" },
 ];
-const periods = ["Manhã", "Tarde", "Noite"];
+
+const periods = [
+  { label: "Manhã", value: "MORNING" },
+  { label: "Tarde", value: "AFTERNOON" },
+  { label: "Noite", value: "NIGHT" },
+];
 
 const AvailabilityStep = ({ onBack, onNext }) => {
   const { control, trigger } = useFormContext();
@@ -34,46 +39,36 @@ const AvailabilityStep = ({ onBack, onNext }) => {
       <FormField
         control={control}
         name="days"
-        render={() => (
+        render={({ field }) => (
           <FormItem>
-            <div className="mb-4">
-              <FormLabel className="text-base">Dias disponíveis</FormLabel>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
+            <FormLabel>Dias disponíveis</FormLabel>
+
+            <div className="grid grid-cols-2 gap-2 mt-2">
               {days.map((day) => (
-                <FormField
-                  key={day}
-                  control={control}
-                  name="days"
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={day}
-                        className="flex flex-row items-start space-x-3 space-y-0"
-                      >
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(day)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, day])
-                                : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== day,
-                                    ),
-                                  );
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel className="font-normal cursor-pointer">
-                          {day}
-                        </FormLabel>
-                      </FormItem>
-                    );
-                  }}
-                />
+                <FormItem
+                  key={day.value}
+                  className="flex items-center gap-2 space-y-0"
+                >
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value?.includes(day.value)}
+                      onCheckedChange={(checked) => {
+                        checked
+                          ? field.onChange([...field.value, day.value])
+                          : field.onChange(
+                              field.value.filter((v) => v !== day.value),
+                            );
+                      }}
+                    />
+                  </FormControl>
+
+                  <FormLabel className="font-normal cursor-pointer">
+                    {day.label}
+                  </FormLabel>
+                </FormItem>
               ))}
             </div>
+
             <FormMessage />
           </FormItem>
         )}
@@ -83,46 +78,36 @@ const AvailabilityStep = ({ onBack, onNext }) => {
       <FormField
         control={control}
         name="periods"
-        render={() => (
+        render={({ field }) => (
           <FormItem>
-            <div className="mb-4">
-              <FormLabel className="text-base">Períodos</FormLabel>
-            </div>
-            <div className="flex gap-4">
+            <FormLabel>Períodos</FormLabel>
+
+            <div className="flex gap-4 mt-2">
               {periods.map((period) => (
-                <FormField
-                  key={period}
-                  control={control}
-                  name="periods"
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={period}
-                        className="flex flex-row items-start space-x-3 space-y-0"
-                      >
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(period)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, period])
-                                : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== period,
-                                    ),
-                                  );
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel className="font-normal cursor-pointer">
-                          {period}
-                        </FormLabel>
-                      </FormItem>
-                    );
-                  }}
-                />
+                <FormItem
+                  key={period.value}
+                  className="flex items-center gap-2 space-y-0"
+                >
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value?.includes(period.value)}
+                      onCheckedChange={(checked) => {
+                        checked
+                          ? field.onChange([...field.value, period.value])
+                          : field.onChange(
+                              field.value.filter((v) => v !== period.value),
+                            );
+                      }}
+                    />
+                  </FormControl>
+
+                  <FormLabel className="font-normal cursor-pointer">
+                    {period.label}
+                  </FormLabel>
+                </FormItem>
               ))}
             </div>
+
             <FormMessage />
           </FormItem>
         )}

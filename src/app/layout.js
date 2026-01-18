@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import { Kanit } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "./providers/auth";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -40,6 +41,7 @@ export default function RootLayout({ children }) {
         className={`${inter.variable} ${kanit.variable} font-sans antialiased`}
       >
         <AuthProvider>{children}</AuthProvider>
+        <Toaster />
       </body>
     </html>
   );
