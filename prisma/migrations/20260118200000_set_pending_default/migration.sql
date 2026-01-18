@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Courier" ALTER COLUMN "status" SET DEFAULT 'PENDING';

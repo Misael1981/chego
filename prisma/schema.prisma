@@ -21,6 +21,7 @@ enum DeliveryStatus {
 }
 
 enum CourierStatus {
+  PENDING
   ACTIVE
   INACTIVE
   BLOCKED
@@ -58,6 +59,37 @@ enum DayPeriod {
   AFTERNOON
   NIGHT
 }
+
+enum BrazilianState {
+  AC 
+  AL 
+  AP 
+  AM 
+  BA 
+  CE 
+  DF 
+  ES 
+  GO 
+  MA 
+  MT 
+  MS 
+  MG 
+  PA 
+  PB 
+  PR 
+  PE 
+  PI 
+  RJ 
+  RN 
+  RS 
+  RO 
+  RR 
+  SC 
+  SP 
+  SE 
+  TO
+}
+
 
 // =====================
 // MODELS
@@ -125,7 +157,9 @@ model Courier {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   phone  String
-  status CourierStatus @default(ACTIVE)
+  city   String
+  state  BrazilianState
+  status CourierStatus @default(PENDING)
   hasFixedJob Boolean @default(false)
 
   availability CourierAvailability[]
@@ -135,6 +169,8 @@ model Courier {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([city, state])
 }
 
 model CourierAvailability {

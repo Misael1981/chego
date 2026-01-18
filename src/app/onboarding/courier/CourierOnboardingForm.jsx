@@ -31,6 +31,8 @@ const CourierOnboardingForm = () => {
       model: "",
       engineCc: "",
       expectations: "",
+      city: "",
+      state: "",
     },
   });
 

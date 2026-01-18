@@ -6,16 +6,61 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { validatePhone } from "@/helpers/validate-phone";
 
+const states = [
+  "SP",
+  "RJ",
+  "MG",
+  "PR",
+  "SC",
+  "RS",
+  "BA",
+  "PE",
+  "CE",
+  "GO",
+  "DF",
+  "PA",
+  "AM",
+  "MA",
+  "PB",
+  "RN",
+  "AL",
+  "SE",
+  "PI",
+  "TO",
+  "RO",
+  "RR",
+  "AP",
+  "AC",
+  "MT",
+  "MS",
+  "ES",
+];
+
 const BasicInfoStep = ({ onNext }) => {
   const { control, trigger, setError, clearErrors } = useFormContext();
 
   const handleNextStep = async () => {
-    const isValid = await trigger(["username", "phone", "fixedJob"]);
+    const isValid = await trigger([
+      "username",
+      "phone",
+      "fixedJob",
+      "city",
+      "state",
+    ]);
 
     if (isValid) {
       onNext();
@@ -89,7 +134,49 @@ const BasicInfoStep = ({ onNext }) => {
           )}
         />
 
-        <Button className="w-full" onClick={handleNextStep}>
+        <FormField
+          control={control}
+          name="city"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cidade</FormLabel>
+              <FormControl>
+                <Input placeholder="Digite sua cidade" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="state"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Estado</FormLabel>
+              <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione um estado" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Estados</SelectLabel>
+                      {states.map((state) => (
+                        <SelectItem key={state} value={state}>
+                          {state}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="button" className="w-full" onClick={handleNextStep}>
           Continuar
         </Button>
       </div>

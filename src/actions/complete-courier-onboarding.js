@@ -27,6 +27,8 @@ export async function completeCourierOnboarding(formData) {
     username,
     phone,
     fixedJob,
+    city,
+    state,
     days,
     periods,
     vehicleType,
@@ -35,6 +37,17 @@ export async function completeCourierOnboarding(formData) {
     engineCc,
     expectations,
   } = parsed.data;
+
+  const user = await db.user.upsert({
+    where: { id: userId },
+    update: {},
+    create: {
+      id: userId,
+      name: session.user.name,
+      email: session.user.email,
+      image: session.user.image,
+    },
+  });
 
   // Transaction (tudo ou nada)
   await db.$transaction(async (tx) => {
@@ -53,11 +66,16 @@ export async function completeCourierOnboarding(formData) {
       update: {
         phone,
         hasFixedJob: fixedJob ?? false,
+        city,
+        state,
       },
       create: {
         userId,
         phone,
         hasFixedJob: fixedJob ?? false,
+        city,
+        state,
+        status: "PENDING",
       },
     });
 

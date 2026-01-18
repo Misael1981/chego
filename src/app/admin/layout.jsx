@@ -1,11 +1,11 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import AppSidebar from "./componets/AppSidebar";
+import AppSidebar from "./components/AppSidebar";
 
 export default function AdminLayout({ children }) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main>
+      <main className="w-full min-h-screen">
         <SidebarTrigger />
         {children}
       </main>

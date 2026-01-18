@@ -1,4 +1,11 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import {
+  Calendar,
+  Home,
+  Inbox,
+  Motorbike,
+  Search,
+  Settings,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -21,9 +28,9 @@ const items = [
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "Entregadores",
+    url: "/admin/chego/deliverers",
+    icon: Motorbike,
   },
   {
     title: "Calendar",
@@ -58,7 +65,7 @@ const AppSidebar = () => {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>Aplicações</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
