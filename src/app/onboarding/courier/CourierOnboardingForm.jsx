@@ -39,7 +39,7 @@ const CourierOnboardingForm = () => {
   const onSubmit = async (data) => {
     try {
       await completeCourierOnboarding(data);
-      router.push("/");
+      router.push("/onboarding/courier/pending");
       toast.success("Cadastro finalizado com sucesso!");
     } catch (err) {
       console.error(err);
