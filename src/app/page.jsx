@@ -1,21 +1,56 @@
-import Login from "@/components/Login";
 import { authOptions } from "@/lib/auth";
+import { db } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    return (
-      <div className="flex p-4 flex-col w-full h-screen items-center justify-center gap-8">
-        <Login />
-      </div>
-    );
+  // Não logado
+  if (!session?.user?.id) {
+    redirect("/login");
+  }
+  const user = await db.user.findUnique({
+    where: { id: session.user.id },
+  });
+
+  if (!user) {
+    redirect("/login");
   }
 
-  return (
-    <div>
-      <h1>Seja bem-vindo, {session.user.name}!</h1>
-    </div>
-  );
+  // Admin
+  if (user.role === "ADMIN") {
+    redirect("/admin/chego");
+  }
+
+  // Usuário sem role definida
+  if (!user.role) {
+    redirect("/onboarding");
+  }
+
+  // Courier
+  if (user.role === "COURIER") {
+    const courier = await db.courier.findUnique({
+      where: { userId: user.id },
+      select: { status: true },
+    });
+
+    if (!courier) {
+      redirect("/onboarding");
+    }
+
+    if (courier.status === "PENDING") {
+      redirect("/pending");
+    }
+
+    if (courier.status === "ACTIVE") {
+      redirect("/dashboard-courier");
+    }
+
+    // Rejeitado / bloqueado
+    redirect("/rejected");
+  }
+
+  // Fallback de segurança
+  redirect("/login");
 }

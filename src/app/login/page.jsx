@@ -1,7 +1,7 @@
-import GoogleLoginButton from "./components/GoogleLoginButton";
-import HeaderLogin from "./components/HeaderLogin";
+import GoogleLoginButton from "@/components/GoogleLoginButton";
+import HeaderLogin from "@/components/HeaderLogin";
 
-const Login = () => {
+export default function LoginPage() {
   return (
     <div className="w-[600px] max-w-[95%] border border-gray-500 rounded-lg p-4 flex flex-col justify-center items-center gap-6">
       <HeaderLogin />
@@ -11,6 +11,4 @@ const Login = () => {
       <GoogleLoginButton />
     </div>
   );
-};
-
-export default Login;
+}
