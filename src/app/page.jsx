@@ -44,7 +44,7 @@ export default async function Home() {
     }
 
     if (courier.status === "ACTIVE") {
-      redirect("/dashboard-courier");
+      redirect("/courier");
     }
 
     // Rejeitado / bloqueado

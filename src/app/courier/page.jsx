@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
+import Link from "next/link";
 
 const dashboardMock = {
   status: "OFFLINE",
@@ -66,7 +67,9 @@ export default function DashboardCourierPage() {
             <CardContent className=" rounded-2xl p-3 text-center">
               <p className="text-sm text-muted-foreground">Seu status</p>
               <p className="text-xl font-bold text-red-500">Offline</p>
-              <Button className="mt-4 w-full">Acessar Pedidos</Button>
+              <Button className="mt-4 w-full" asChild>
+                <Link href="/courier/pedidos">Acessar Pedidos</Link>
+              </Button>
             </CardContent>
           </Card>
         </main>
