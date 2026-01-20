@@ -3,12 +3,14 @@ import HeaderLogin from "@/components/HeaderLogin";
 
 export default function LoginPage() {
   return (
-    <div className="w-[600px] max-w-[95%] border border-gray-500 rounded-lg p-4 flex flex-col justify-center items-center gap-6">
-      <HeaderLogin />
-      <p className="text-center">
-        Faça seu login para ter acesso a plataforma.
-      </p>
-      <GoogleLoginButton />
+    <div className="w-full  p-4 flex  justify-center items-center h-screen">
+      <div className="w-[600px] max-w-[95%] border border-gray-500 rounded-lg p-4 flex flex-col justify-center items-center gap-6">
+        <HeaderLogin />
+        <p className="text-center">
+          Faça seu login para ter acesso a plataforma.
+        </p>
+        <GoogleLoginButton />
+      </div>
     </div>
   );
 }
