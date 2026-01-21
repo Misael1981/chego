@@ -1,3 +1,4 @@
+import MenuTrigger from "@/components/MenuTrigger";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
@@ -24,6 +25,7 @@ export default function DashboardCourierPage() {
     <div>
       <div>
         <header className="bg-white w-full px-6 pt-6 pb-10 flex flex-col gap-1 justify-center items-center">
+          <MenuTrigger />
           <Image
             src="/logo-chego.svg"
             alt="Logo Chego"

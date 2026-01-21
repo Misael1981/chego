@@ -11,7 +11,7 @@ datasource db {
 // ENUMS
 // =====================
 
-// npx prisma migrate dev --name init_chego
+// npx prisma migrate dev --name 
 
 enum DeliveryStatus {
   OPEN // disponível para qualquer entregador

@@ -20,13 +20,14 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        token.userId = user.id;
+
         const dbUser = await db.user.findUnique({
           where: { id: user.id },
           select: { role: true },
         });
 
-        token.userId = user.id;
-        token.role = dbUser?.role ?? null;
+        token.role = dbUser?.role || "USER";
       }
 
       return token;

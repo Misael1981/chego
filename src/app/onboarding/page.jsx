@@ -1,3 +1,4 @@
+import MenuTrigger from "@/components/MenuTrigger";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
@@ -6,6 +7,8 @@ import Link from "next/link";
 export default function OnboardingPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <MenuTrigger />
+
       <div className="w-full max-w-2xl space-y-8">
         <div className="flex flex-col items-center justify-center text-center gap-2">
           <div className="p-2 bg-white w-fit rounded-lg">
